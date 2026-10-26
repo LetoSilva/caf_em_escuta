@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#061b3a">
+  <meta name="description" content="CAF em Escuta — Pesquisa anônima de satisfação de fornecedores da AXIA Energia.">
+  <title>CAF em Escuta | Satisfação do Fornecedor — AXIA Energia</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="CAF AXIA Energia">
+      <span class="brand-mark">A</span>
+      <span class="brand-text"><strong>AXIA</strong><small>ENERGIA</small></span>
+      <span class="brand-divider"></span>
+      <span class="product-name">CAF <b>° Central de Atendimento ao Fornecedor</b><small>VOZ DO FORNECEDOR</small></span>
+    </a>
+    <div class="top-status"><span class="status-dot"></span><span id="connectionStatus">Configurando conexão…</span></div>
+  </header>
+
+  <main class="page-shell" id="inicio">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">CENTRAL DE EXPERIÊNCIA DO FORNECEDOR</span>
+        <h1>Sua opinião fortalece<br><span>nossas parcerias.</span></h1>
+        <p>Queremos ouvir você. Responda à pesquisa anônima e ajude a melhorar continuamente os processos e o atendimento da AXIA Energia.</p>
+        <div class="hero-meta"><span>◷ Aproximadamente 2 minutos</span><span>♧ Respostas anônimas</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="art-card"><span class="art-icon">✦</span><strong>Parceria</strong><small>que evolui</small><div class="art-line"></div><div class="art-line short"></div></div>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Navegação principal">
+      <button class="tab active" data-view="surveyView">Responder pesquisa</button>
+      <button class="tab" data-view="dashboardView">Dashboard público</button>
+    </nav>
+
+    <section id="surveyView" class="view active">
+      <div class="section-heading">
+        <div><span class="eyebrow">PESQUISA DE SATISFAÇÃO</span><h2>Conte como foi sua experiência</h2></div>
+        <span class="pill"><span class="status-dot"></span> Pesquisa online</span>
+      </div>
+      <form id="surveyForm" class="survey-layout">
+        <div class="question-list">
+          <article class="question-card">
+            <div class="question-number">01</div><div class="question-content">
+              <label class="question-title">Como você avalia o atendimento prestado pela equipe CAF? <span>*</span></label>
+              <p class="question-help">Considere cordialidade, clareza e disponibilidade.</p>
+              <div class="rating-options" data-rating="atendimento" role="radiogroup" aria-label="Nota do atendimento">
+                <button type="button" class="rating" data-value="1" aria-label="1 - Muito ruim"><b>★</b><small>1</small></button>
+                <button type="button" class="rating" data-value="2" aria-label="2 - Ruim"><b>★</b><small>2</small></button>
+                <button type="button" class="rating" data-value="3" aria-label="3 - Regular"><b>★</b><small>3</small></button>
+                <button type="button" class="rating" data-value="4" aria-label="4 - Bom"><b>★</b><small>4</small></button>
+                <button type="button" class="rating" data-value="5" aria-label="5 - Excelente"><b>★</b><small>5</small></button>
+              </div><div class="rating-caption">Selecione uma nota de 1 (muito ruim) a 5 (excelente).</div>
+            </div>
+          </article>
+          <article class="question-card">
+            <div class="question-number">02</div><div class="question-content">
+              <label class="question-title">Como você avalia a comunicação da CAF, considerando a clareza das informações e o prazo de retorno? <span>*</span></label>
+              <p class="question-help">Considere a qualidade das orientações e a previsibilidade dos prazos.</p>
+              <div class="rating-options" data-rating="qualidade" role="radiogroup" aria-label="Nota de qualidade e prazo">
+                <button type="button" class="rating" data-value="1" aria-label="1 - Muito ruim"><b>★</b><small>1</small></button>
+                <button type="button" class="rating" data-value="2" aria-label="2 - Ruim"><b>★</b><small>2</small></button>
+                <button type="button" class="rating" data-value="3" aria-label="3 - Regular"><b>★</b><small>3</small></button>
+                <button type="button" class="rating" data-value="4" aria-label="4 - Bom"><b>★</b><small>4</small></button>
+                <button type="button" class="rating" data-value="5" aria-label="5 - Excelente"><b>★</b><small>5</small></button>
+              </div><div class="rating-caption">Selecione uma nota de 1 (muito ruim) a 5 (excelente).</div>
+            </div>
+          </article>
+          <article class="question-card">
+            <div class="question-number">03</div><div class="question-content">
+              <label class="question-title" for="comentario">O que podemos melhorar? Deixe elogios, críticas ou sugestões sobre sua experiência com a AXIA Energia.</label>
+              <p class="question-help">Resposta livre e opcional. Não inclua dados pessoais ou informações confidenciais.</p>
+              <textarea id="comentario" name="comentario" maxlength="1000" rows="5" placeholder="Escreva seu comentário, elogio ou sugestão…"></textarea>
+              <div class="textarea-footer"><span>Opcional</span><span><b id="charCount">0</b>/1000</span></div>
+            </div>
+          </article>
+          <article class="question-card">
+            <div class="question-number">04</div><div class="question-content">
+              <label class="question-title">De modo geral, qual é o seu nível de satisfação em trabalhar com a AXIA Energia? <span>*</span></label>
+              <div class="choice-list" id="satisfacaoOptions">
+                <label class="choice"><input type="radio" name="satisfacao" value="1"><span class="choice-dot"></span><span>Muito insatisfeito</span></label>
+                <label class="choice"><input type="radio" name="satisfacao" value="2"><span class="choice-dot"></span><span>Insatisfeito</span></label>
+                <label class="choice"><input type="radio" name="satisfacao" value="3"><span class="choice-dot"></span><span>Nem satisfeito, nem insatisfeito</span></label>
+                <label class="choice"><input type="radio" name="satisfacao" value="4"><span class="choice-dot"></span><span>Satisfeito</span></label>
+                <label class="choice"><input type="radio" name="satisfacao" value="5"><span class="choice-dot"></span><span>Muito satisfeito</span></label>
+              </div>
+            </div>
+          </article>
+          <div class="privacy-note"><span class="privacy-icon">◇</span><p><strong>Privacidade em primeiro lugar.</strong><br>Esta pesquisa não solicita nome, empresa ou e-mail. Os resultados são consolidados para apoiar melhorias no atendimento.</p></div>
+          <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+          <button class="primary-button submit-button" type="submit" id="submitButton">Enviar respostas <span>→</span></button>
+        </div>
+        <aside class="side-panel">
+          <div class="side-panel-top"><span class="side-icon">✧</span><div><h3>Seu feedback importa</h3><p>Cada resposta nos ajuda a evoluir.</p></div></div>
+          <div class="side-stat"><strong>4 perguntas</strong><span>rápidas e objetivas</span></div>
+          <div class="side-stat"><strong>100% anônima</strong><span>não pedimos identificação</span></div>
+          <div class="side-stat"><strong>Melhoria contínua</strong><span>sua opinião orienta ações</span></div>
+          <div class="side-quote">“Parcerias fortes começam com escuta ativa.”</div>
+        </aside>
+      </form>
+    </section>
+
+    <section id="dashboardView" class="view">
+      <div class="section-heading dashboard-heading">
+        <div><span class="eyebrow">VISÃO DE ACOMPANHAMENTO</span><h2>Dashboard de satisfação</h2><p>Indicadores consolidados das respostas recebidas.</p></div>
+        <div class="dashboard-actions"><label for="periodFilter">Período</label><select id="periodFilter"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="all">Todo o período</option></select><button id="refreshButton" class="secondary-button">↻ Atualizar</button></div>
+      </div>
+      <div id="dashboardMessage" class="dashboard-message">Carregando indicadores…</div>
+      <div class="kpi-grid">
+        <article class="kpi-card"><span class="kpi-label">RESPOSTAS NO PERÍODO</span><div class="kpi-value" id="kpiResponses">—</div><span class="kpi-foot">Pesquisas enviadas</span><span class="kpi-symbol blue">▤</span></article>
+        <article class="kpi-card"><span class="kpi-label">SATISFAÇÃO MÉDIA</span><div class="kpi-value"><span id="kpiAverage">—</span><small>/5</small></div><span class="kpi-foot">Média das 3 avaliações</span><span class="kpi-symbol cyan">✦</span></article>
+        <article class="kpi-card"><span class="kpi-label">SATISFEITOS</span><div class="kpi-value" id="kpiPositive">—</div><span class="kpi-foot">Notas 4 ou 5 na satisfação geral</span><span class="kpi-symbol green">↗</span></article>
+        <article class="kpi-card"><span class="kpi-label">RESPOSTAS DE HOJE</span><div class="kpi-value" id="kpiToday">—</div><span class="kpi-foot">Data local do navegador</span><span class="kpi-symbol violet">◷</span></article>
+      </div>
+      <div class="dashboard-grid">
+        <article class="panel trend-panel"><div class="panel-heading"><div><h3>Evolução diária</h3><p>Média de satisfação por dia</p></div><span class="panel-tag">TENDÊNCIA</span></div><div id="trendChart" class="trend-chart"><p class="empty-state">Aguardando dados…</p></div></article>
+        <article class="panel breakdown-panel"><div class="panel-heading"><div><h3>Resultado por pergunta</h3><p>Média de 1 a 5</p></div></div><div id="questionBreakdown" class="breakdown-list"></div></article>
+        <article class="panel recent-panel"><div class="panel-heading"><div><h3>Respostas recentes</h3><p>Notas, sem identificação pessoal</p></div><span class="live-label"><span class="status-dot"></span> Ao vivo</span></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Atendimento</th><th>Qualidade</th><th>Satisfação</th></tr></thead><tbody id="recentRows"><tr><td colspan="4">Carregando…</td></tr></tbody></table></div><p class="table-footnote">Para preservar o anonimato, comentários livres não são exibidos neste dashboard público.</p></article>
+      </div>
+      <div class="dashboard-footer"><span class="status-dot"></span> Atualização em tempo real quando a conexão estiver ativa <span id="lastUpdated"></span></div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-brand"><span class="brand-mark small">A</span><span><strong>AXIA ENERGIA</strong><small>CAF em Escuta • Pesquisa de satisfação</small></span></div><p>Wellington Silva. Melhorar. Evoluir juntos.</p><span class="footer-line"></span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
